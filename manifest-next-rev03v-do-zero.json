@@ -1,0 +1,18 @@
+{
+  "name": "SENS NEXT — UNIVERSAL Rev.03N — Campos Inteligentes — Instalação do Zero",
+  "version": "NEXT-UNIVERSAL Rev.03N",
+  "new_install_prompt_erase": false,
+  "builds": [
+    {
+      "chipFamily": "ESP32",
+      "parts": [
+        {
+          "path": "firmware/SENS_NEXT_UNIVERSAL_REV03N_MERGED.bin",
+          "offset": 0
+        }
+      ],
+      "improv": false
+    }
+  ],
+  "new_install_improv_wait_time": 0
+}
