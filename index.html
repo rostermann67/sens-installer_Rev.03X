@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>SENS Installer NEXT — Distribuição Rev.03V | Firmware Rev.03N</title>
+<title>SENS Installer NEXT — Distribuição Rev.03W | Firmware Rev.03N</title>
 <script type="module" src="https://unpkg.com/esp-web-tools@10/dist/web/install-button.js?module"></script>
 <style>
 :root{font-family:Arial,sans-serif;color:#152019;background:#f4f6f5}
@@ -52,7 +52,7 @@ details.config-group>summary{font-weight:800;color:#176b3a;cursor:pointer}
 </style>
 </head>
 <body>
-<header><h1>SENS INSTALLER NEXT</h1><div>Instalação e configuração de equipamentos SENS</div><div style="margin-top:7px;font-size:.9rem;opacity:.9">Distribuição Rev.03V • Firmware SENS NEXT Universal Rev.03N</div></header>
+<header><h1>SENS INSTALLER NEXT</h1><div>Instalação e configuração de equipamentos SENS</div><div style="margin-top:7px;font-size:.9rem;opacity:.9">Distribuição Rev.03W • Firmware SENS NEXT Universal Rev.03N</div></header>
 <main>
 <section class="card" id="preconfigCard">
 <div class="step">ETAPA 1 — CONFIGURAÇÃO DO EQUIPAMENTO</div><h2>Configure o SENS antes de instalar</h2>
@@ -762,9 +762,20 @@ async function confirmIdentityFast(label,wanted,setter,getter,onProgress){
   throw new Error(`${label} não confirmado. ${last}`);
 }
 
+// Rev.03W: NTC/conversor analogico nao se aplica a interface I2C generica.
+// Mantem validacao integral de identidade, interface, endereco, registradores e canais.
+function sensConfigKeys(wanted){
+  const a=kvObj(wanted);
+  const keys=Object.keys(a);
+  if(String(a.if)==="25"){
+    const analogOnly=new Set(["conv","nr0","nt0","nbeta","nrf","nvref"]);
+    return keys.filter(k=>!analogOnly.has(k));
+  }
+  return keys;
+}
 function configDiff(wanted,readback){
   const a=kvObj(wanted),b=kvObj(readback),d=[];
-  for(const k of Object.keys(a)){
+  for(const k of sensConfigKeys(wanted)){
     if(!(k in b)){d.push(k+" ausente");continue;}
     const av=a[k],bv=b[k],an=Number(av),bn=Number(bv);
     const bothNumeric=av.trim()!==""&&bv.trim()!==""&&Number.isFinite(an)&&Number.isFinite(bn);
@@ -802,7 +813,7 @@ function kvObj(s){
 }
 function equivalentConfig(wanted,readback){
   const a=kvObj(wanted),b=kvObj(readback);
-  for(const k of Object.keys(a)){
+  for(const k of sensConfigKeys(wanted)){
     if(!(k in b)) return false;
     const av=a[k],bv=b[k];
     const an=Number(av),bn=Number(bv);
