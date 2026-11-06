@@ -1,13 +1,13 @@
 {
-  "name": "SENS NEXT — UNIVERSAL Rev.03N — Campos Inteligentes — Instalação do Zero",
-  "version": "NEXT-UNIVERSAL Rev.03N",
+  "name": "SENS NEXT — UNIVERSAL Rev.03O — ACK Espera e Diagnóstico — Instalação do Zero",
+  "version": "NEXT-UNIVERSAL Rev.03O",
   "new_install_prompt_erase": false,
   "builds": [
     {
       "chipFamily": "ESP32",
       "parts": [
         {
-          "path": "firmware/SENS_NEXT_UNIVERSAL_REV03N_MERGED.bin",
+          "path": "firmware/SENS_NEXT_UNIVERSAL_REV03O_MERGED.bin",
           "offset": 0
         }
       ],
